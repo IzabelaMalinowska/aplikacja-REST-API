@@ -1,7 +1,7 @@
 // const fs = require('fs/promises')
 
 const service = require("../service");
-const { contactValidator } = require("./../utils/validators/validator");
+const { contactValidator } = require("./../utils/validator/validator");
 
 const getAll = async (req, res) => {
   const contacts = await service.getAllContacts();
