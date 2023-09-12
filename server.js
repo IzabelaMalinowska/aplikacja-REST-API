@@ -4,7 +4,7 @@ const {
   createFolderIfNotExist,
   uploadDir,
   imageStore,
-} = require("./middleware/upload");
+} = require("./middlewares/upload");
 require("dotenv").config();
 require("colors");
 
