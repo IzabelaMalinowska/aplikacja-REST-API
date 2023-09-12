@@ -1,5 +1,5 @@
 const { nanoid } = require("nanoid/non-secure");
-const { userValidator } = require("../utils/validators/validators/validator");
+const { userValidator } = require("../utils/validators/validator");
 const sgMail = require("../utils/email/sgMail");
 const service = require("../service/users");
 const jwt = require("jsonwebtoken");
@@ -26,23 +26,17 @@ const register = async (req, res, next) => {
     });
   }
   try {
-    const avatarURL = gravatar.url(email, {
-      s: "200",
-      r: "pg",
-      d: "mm",
-    });
-
     const verificationToken = nanoid();
     const newUser = new User({
       email,
       password,
       subscription,
-      avatarURL,
-      verificationToken,
+      verificationToken, // Dodaj pole verificationToken podczas tworzenia użytkownika
     });
     newUser.setPassword(password);
     await newUser.save();
     if (verificationToken) {
+      // Tutaj wyślij wiadomość email z verificationToken
       sgMail.sendVerificationToken(email, verificationToken);
     }
     res.status(201).json({
@@ -261,14 +255,14 @@ const resendVerificationMail = async (req, res) => {
       message: "Incorrect email ",
     });
   }
-  if (user.validate) {
+  if (user.verify) {
     return res.status(400).json({
       status: "error",
       code: 400,
       message: "Verification has already been passed",
     });
   }
-  if (!user.validate) {
+  if (!user.verify) {
     sgMail.sendVerificationToken(email, user.verificationToken);
     return res.status(400).json({
       status: "error",
