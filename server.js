@@ -1,12 +1,7 @@
 const app = require("./app");
 const mongoose = require("mongoose");
-const {
-  createFolderIfNotExist,
-  uploadDir,
-  imageStore,
-} = require("./middleware/upload");
-require("dotenv").config();
-require("colors");
+const {createFolderIfNotExist,uploadDir,imageStore,
+} = require("./middlewares/upload");require("dotenv").config();require("colors");
 
 const PORT = process.env.PORT || 3000;
 const DB_HOST = process.env.DB_HOST;

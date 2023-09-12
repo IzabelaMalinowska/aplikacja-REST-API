@@ -7,7 +7,7 @@ const gravatar = require("gravatar");
 const fs = require("fs/promises");
 const path = require("path");
 const Jimp = require("jimp");
-const { imageStore } = require("../middleware/upload");
+const { imageStore } = require("../middlewares/upload");
 const secret = process.env.SECRET;
 
 const register = async (req, res, next) => {
@@ -16,6 +16,7 @@ const register = async (req, res, next) => {
   const { email, password, subscription } = req.body;
   const user = await service.getUser({ email });
 
+  
   if (user) {
     return res.status(409).json({
       status: "error",

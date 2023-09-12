@@ -7,7 +7,10 @@ const updateUserSubscription = async (userId, subscription) => {
 };
 
 const updateUserAvatar = async (userId, avatarURL) => {
-  return User.findByIdAndUpdate(userId, { avatarURL });
+  await User.findByIdAndUpdate(userId, { avatarURL });
+
+  const updatedUser = await User.findById(userId);
+  return updatedUser;
 };
 
 const deleteUser = async (userMail) =>
