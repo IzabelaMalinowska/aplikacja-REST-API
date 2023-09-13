@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const userController = require("../controllers/users");
-const { authorizeUser } = require("../middleware/authorization");
-const { uploadMiddleware } = require("../middleware/upload");
+const { authorizeUser } = require("../middlewares/authorization");
+const { uploadMiddleware } = require("../middlewares/upload");
 
 router.post("/signup", userController.register);
 router.post("/login", userController.login);
@@ -14,10 +14,7 @@ router.patch(
   userController.updateSubscription
 );
 router.patch(
-  "/avatars",
-  authorizeUser,
-  uploadMiddleware.single("avatar"),
-  userController.updateAvatar
+  "/avatars",authorizeUser,uploadMiddleware.single("avatar"),userController.updateAvatar
 );
 router.delete("/", userController.deleteUserByMail);
 
