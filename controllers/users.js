@@ -31,12 +31,11 @@ const register = async (req, res, next) => {
       email,
       password,
       subscription,
-      verificationToken, // Dodaj pole verificationToken podczas tworzenia użytkownika
+      verificationToken, 
     });
     newUser.setPassword(password);
     await newUser.save();
     if (verificationToken) {
-      // Tutaj wyślij wiadomość email z verificationToken
       sgMail.sendVerificationToken(email, verificationToken);
     }
     res.status(201).json({
