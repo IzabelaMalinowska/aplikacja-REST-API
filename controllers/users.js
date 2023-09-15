@@ -233,9 +233,9 @@ const verifyUserByToken = async (req, res) => {
       return res.status(404).json({ message: "Not found user" });
     } else {
       await service.updateUserVerification(user.id);
-      user.verify = true; // Ustawienie flagi na true
-      user.verificationToken = null; // Wyczyszczenie verificationToken
-      await user.save(); // Zapisz zmiany w bazie danych
+      user.verify = true; 
+      user.verificationToken = null; 
+      await user.save(); 
       res.status(200).json({ message: "Verification successful" });
     }
   } catch (error) {
