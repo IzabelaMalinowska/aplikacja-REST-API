@@ -31,7 +31,7 @@ const register = async (req, res, next) => {
       email,
       password,
       subscription,
-      verificationToken, 
+      verificationToken: verificationToken,
     });
     newUser.setPassword(password);
     await newUser.save();
