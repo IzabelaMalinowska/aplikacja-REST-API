@@ -233,6 +233,9 @@ const verifyUserByToken = async (req, res) => {
       return res.status(404).json({ message: "Not found user" });
     } else {
       await service.updateUserVerification(user.id);
+      user.verify = true; // Ustawienie flagi na true
+      user.verificationToken = null; // Wyczyszczenie verificationToken
+      await user.save(); // Zapisz zmiany w bazie danych
       res.status(200).json({ message: "Verification successful" });
     }
   } catch (error) {
@@ -266,7 +269,7 @@ const resendVerificationMail = async (req, res) => {
     return res.status(400).json({
       status: "error",
       code: 400,
-      message: "Verification has already been passed",
+      message: "Verification email has been resent",
     });
   }
 };
