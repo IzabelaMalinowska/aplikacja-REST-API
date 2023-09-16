@@ -228,16 +228,20 @@ const deleteUserByMail = async (req, res) => {
 const verifyUserByToken = async (req, res) => {
   try {
     const token = req.params.verificationToken;
+    if (!token) {
+      return res.status(400).json({ message: "Verification token is missing" });
+    }
+
     const user = await service.getUser({ verificationToken: token });
     if (!user) {
       return res.status(404).json({ message: "Not found user" });
-    } else {
-      await service.updateUserVerification(user.id);
-      user.verify = true; 
-      user.verificationToken = null; 
-      await user.save(); 
-      res.status(200).json({ message: "Verification successful" });
     }
+
+    user.verify = true;
+    user.verificationToken = null;
+    await user.save();
+
+    res.status(200).json({ message: "Verification successful" });
   } catch (error) {
     console.log(`Error: ${error.message}`.red);
   }
