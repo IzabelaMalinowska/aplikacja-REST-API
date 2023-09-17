@@ -127,17 +127,6 @@ const current = async (req, res, next) => {
   }
 };
 
-const getUsers = async (req, res, next) => {
-  const { email } = req.user;
-  res.json({
-    status: "success",
-    code: 200,
-    data: {
-      message: `Authorization was successful: ${email}`,
-    },
-  });
-};
-
 const updateSubscription = async (req, res, next) => {
   try {
     const { error } = userValidator(req.body);
@@ -218,7 +207,7 @@ const deleteUserByMail = async (req, res) => {
     if (!userToRemove) {
       return res.status(404).json({ message: "Not found user" });
     } else {
-      res.status(200).json({ message: "User deleted from data base" });
+      res.status(200).json({ message: "User deleted from the database" });
     }
   } catch (error) {
     console.log(`Error: ${error.message}`.red);
@@ -236,7 +225,15 @@ const verifyUserByToken = async (req, res) => {
       user.verify = true;
       user.verificationToken = null;
       await user.save();
-      res.status(200).json({ message: "Verification successful" });
+      res.status(200).json({
+        message: "Verification successful",
+        user: {
+          id: user.id,
+          email: user.email,
+          subscription: user.subscription,
+          verify: user.verify,
+        },
+      });
     }
   } catch (error) {
     console.log(`Error: ${error.message}`.red);
