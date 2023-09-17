@@ -223,7 +223,6 @@ const verifyUserByToken = async (req, res) => {
     } else {
       await service.updateUserVerification(user.id);
       user.verify = true;
-      user.verificationToken = null;
       await user.save();
       res.status(200).json({
         message: "Verification successful",
